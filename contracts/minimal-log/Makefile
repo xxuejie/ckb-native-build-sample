@@ -62,4 +62,7 @@ cargo:
 clean:
 	cargo clean
 
-.PHONY: build test check clippy fmt cargo clean
+prepare:
+	rustup target add riscv64imac-unknown-none-elf
+
+.PHONY: build test check clippy fmt cargo clean prepare

@@ -37,7 +37,10 @@ Generally speaking, the directory structure, is simply a standard Rust workspace
     + `contracts/stack-reorder`: An example showcasing how to reorder stack to the lower address, and keep heap at higher address for better memory overflow protection in an absence of MMU. Notice the actual required allocated stack size is depending on individual contracts, so the Makefile included for this contract has an additional task for tweaking allocated stack size. Similarly to the above, one can do a diff between `contracts/stack-reorder/Makefile` and `contracts/minimal-log/Makefile` for all the details.
 * `deps`: All git submodules should go here.
 * `tests`: Top level contract tests. Typically one would want to build full CKB transactions including the smart contracts in development, then run them in CKB's verifier for assurance of behaviors.
+* `docker`: Sample docker files for reproducible build. You might or might not need this in your project.
 * `Makefile`: Top, workspace level makefile for firing up commands.
+
+Note for the sample here, I am not locking Rust toolchain versions, since I believe latest stable Rust is good enough to build smart contracts. However for individual projects one is working on, it might or might not make sense to lock Rust toolchain version for stability.
 
 ### Building
 
@@ -60,6 +63,55 @@ $ make build CLEAN_BUILD_DIR_FIRST=false  # keep old untouched binaries
 ```
 
 You can also combine all the arguments here, suppose in a previous build you have build all the binaries, now you only want to build minimal-log binary. Doing `make build CONTRACT=minimal-log` will erase other binaries, you can do `make build CONTRACT=minimal-log CLEAN_BUILD_DIR_FIRST=false` to both build the minimal-log binary, and also keep the old ones untouched.
+
+### Reproducible Build
+
+The workspace level makefile has a `checksum` task, which can help you generate a checksum file for reproducible build:
+
+```
+$ make checksum
+```
+
+By default, this generates a checksum file at `build/checksums-release.txt`, containing the sha256 hash for all generated binaries.
+
+We can leverage this task to build a reproducible workflow. Using docker as an example:
+
+Locate a docker image that has both Rust and LLVM (of your used version) installed. I strongly recommended that one spends some extra time to build his/her own, for maximum security. But if one isn't available or if one wants simple testing, I have one available [here](https://hub.docker.com/r/xxuejie/rust-n-llvm), which is built from `docker/bookworm.dockerfile`.
+
+Now use command like following to build the contract, then obtain the checksum:
+
+```
+$ docker run --rm -v `pwd`:/code \
+  docker.io/xxuejie/rust-n-llvm@sha256:71e98a25eb0350c779cdea18c296d101c4ddc375b8fd96531b63f3105ca64ca2 \
+  bash -c "cd /code; make checksum MODE=release CHECKSUM_FILE=checksums.txt"
+```
+
+Notice `CHECKSUM_FILE` is altered so the checksum file is generated outside of `build` directory, this way we can keep it in source control.
+
+With `checksums.txt` checked in, one can then first build the contract, and use the following command to verify the checksums:
+
+```
+$ sha256sum -c checksums.txt
+build/release/legacy-c-dependency: OK
+build/release/loads-of-hashes: OK
+build/release/minimal-log: OK
+build/release/stack-reorder: OK
+```
+
+In case the checksums do not match, errors would occurs:
+
+```
+$ sha256sum -c checksums.txt
+build/release/legacy-c-dependency: FAILED
+build/release/loads-of-hashes: FAILED
+build/release/minimal-log: FAILED
+build/release/stack-reorder: FAILED
+sha256sum: WARNING: 4 computed checksums did NOT match
+```
+
+This whole process can be integrated in CI for reproducible build checking.
+
+Notice that using docker to do reproducible build is a method of doing reproducible build, it is NOT THE method to do reproducible build. Fundamentally, the requirements of reproducible build, is simply the same source code + the same compiler toolchain. There might well be many other methods that can be used to achieve the goal of reproducible build. Here I'm simply illustrating one example of doing it.
 
 ### Testing
 
