@@ -9,10 +9,10 @@ A collection of CKB contract samples that can and should be compiled natively us
 The included samples here are put together under the following set of rationale:
 
 * Native, official distribution(without any patches required) of Rust and LLVM must be used to build smart contracts.
-** One might leverage docker to lock Rust & LLVM versions for reproducible build, but normal day-to-day development should be doable only with natively installed Rust & LLVM
+    + One might leverage docker to lock Rust & LLVM versions for reproducible build, but normal day-to-day development should be doable only with natively installed Rust & LLVM
 * Readable, simple, editable makefiles are augmented to each crate to simply CKB contract building.
-** The include makefiles should work on commonly defined conventions, and a minimal set of features. Tricks should be limited to absolutely minimum.
-** The goal here, is that any developer should be comfortable modifying the makefiles with ease, suiting their special requirements.
+    + The include makefiles should work on commonly defined conventions, and a minimal set of features. Tricks should be limited to absolutely minimum.
+    + The goal here, is that any developer should be comfortable modifying the makefiles with ease, suiting their special requirements.
 
 ## Usage
 
@@ -28,13 +28,13 @@ $ cd ckb-native-build-sample
 Generally speaking, the directory structure, is simply a standard Rust workspace with a few added makefiles. However, it is built with some conventions to simpify development tasks:
 
 * `crates`: Platform independent Rust crates for common utilities. Chances are many of them come with their own unit tests that can run on any platforms supported by Rust compiler.
-** `crates/big-cell-fetcher`: A pure Rust crate, what is interesting, is that it leverages [ckb-x64-simulator](https://github.com/nervosnetwork/ckb-x64-simulator) to build native runnable unit tests.
-** `crates/big-witness-hasher`: A sample building and gluing C code in a Rust crate. Going into the future, this is the layout I personally recommended, if you have C code to glue to a Rust-based CKB smart contract.
+    + `crates/big-cell-fetcher`: A pure Rust crate, what is interesting, is that it leverages [ckb-x64-simulator](https://github.com/nervosnetwork/ckb-x64-simulator) to build native runnable unit tests.
+    + `crates/big-witness-hasher`: A sample building and gluing C code in a Rust crate. Going into the future, this is the layout I personally recommended, if you have C code to glue to a Rust-based CKB smart contract.
 * `contracts`: Actual CKB contracts go here, it is expected that each contract form its own crate with its own folder here.
-** `contracts/minimal-log`: A minimal contract example that does nothing but prints log lines. This can serve as a template example if one wants to build CKB smart contracts following guidelines shown here.
-** `contracts/loads-of-hashes`: A non-trivial example that loads external Rust-only dependencies, as well as dependency that contains C code but in a proper organization(`crates/big-witness-hasher`).
-** `contracts/legacy-c-dependency`: Every once in a while, you might run into dependency that was from the old time, hence does not respect the conventions here well. Using `blake2b-rs` at `v0.2.0` as such a dependency, this sample shows how you can introduce code from the legacy days to a proper native build setup. One can do a diff between `contracts/legacy-c-dependency/Makefile` and `contracts/minimal-log/Makefile` to learn exactly what is needed to take care of the legacy crates.
-** `contracts/stack-reorder`: An example showcasing how to reorder stack to the lower address, and keep heap at higher address for better memory overflow protection in an absence of MMU. Notice the actual required allocated stack size is depending on individual contracts, so the Makefile included for this contract has an additional task for tweaking allocated stack size. Similarly to the above, one can do a diff between `contracts/stack-reorder/Makefile` and `contracts/minimal-log/Makefile` for all the details.
+    + `contracts/minimal-log`: A minimal contract example that does nothing but prints log lines. This can serve as a template example if one wants to build CKB smart contracts following guidelines shown here.
+    + `contracts/loads-of-hashes`: A non-trivial example that loads external Rust-only dependencies, as well as dependency that contains C code but in a proper organization(`crates/big-witness-hasher`).
+    + `contracts/legacy-c-dependency`: Every once in a while, you might run into dependency that was from the old time, hence does not respect the conventions here well. Using `blake2b-rs` at `v0.2.0` as such a dependency, this sample shows how you can introduce code from the legacy days to a proper native build setup. One can do a diff between `contracts/legacy-c-dependency/Makefile` and `contracts/minimal-log/Makefile` to learn exactly what is needed to take care of the legacy crates.
+    + `contracts/stack-reorder`: An example showcasing how to reorder stack to the lower address, and keep heap at higher address for better memory overflow protection in an absence of MMU. Notice the actual required allocated stack size is depending on individual contracts, so the Makefile included for this contract has an additional task for tweaking allocated stack size. Similarly to the above, one can do a diff between `contracts/stack-reorder/Makefile` and `contracts/minimal-log/Makefile` for all the details.
 * `deps`: All git submodules should go here.
 * `tests`: Top level contract tests. Typically one would want to build full CKB transactions including the smart contracts in development, then run them in CKB's verifier for assurance of behaviors.
 * `Makefile`: Top, workspace level makefile for firing up commands.
