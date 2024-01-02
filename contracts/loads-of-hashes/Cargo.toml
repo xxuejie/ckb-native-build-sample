@@ -1,0 +1,11 @@
+[package]
+name = "loads-of-hashes"
+description = "A non-trivial Rust contract that loads and hashes certain amount of data in a tx"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ckb-std = { git = "https://github.com/xxuejie/ckb-std", rev = "5227ce2", features = [ "build-with-clang" ] }
+big-cell-fetcher = { path = "../../crates/big-cell-fetcher" }
+big-witness-hasher = { path = "../../crates/big-witness-hasher" }
+blake2b-ref = "0.3.1"

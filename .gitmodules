@@ -1,0 +1,6 @@
+[submodule "deps/ckb-c-stdlib"]
+	path = deps/ckb-c-stdlib
+	url = https://github.com/nervosnetwork/ckb-c-stdlib
+[submodule "deps/ckb-stack-reorg-bootloader"]
+	path = deps/ckb-stack-reorg-bootloader
+	url = https://github.com/xxuejie/ckb-stack-reorg-bootloader

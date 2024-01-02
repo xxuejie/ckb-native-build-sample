@@ -1,0 +1,21 @@
+[package]
+name = "big-cell-fetcher"
+description = "A Rust dependency crate example with native tests"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ckb-std = { git = "https://github.com/xxuejie/ckb-std", rev = "5227ce2", features = [ "build-with-clang" ] }
+
+# Supporting native tests powered by ckb-x64-simulator
+[target.'cfg(target_arch = "x86_64")'.dependencies.ckb-std]
+git = "https://github.com/xxuejie/ckb-std"
+rev = "5227ce2"
+features = ["build-with-clang", "simulator"]
+
+[target.'cfg(target_arch = "x86_64")'.dev-dependencies]
+ckb-testtool = { git = "https://github.com/nervosnetwork/capsule", rev = "984a071" }
+rusty-fork = "0.3.0"
+rand = "0.8.5"
+serde_json = "1.0"
+tempfile = "3.9.0"

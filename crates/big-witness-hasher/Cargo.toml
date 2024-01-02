@@ -1,0 +1,10 @@
+[package]
+name = "big-witness-hasher"
+description = "A Rust dependency crate example which uses C code underneath"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[build-dependencies]
+cc = "1.0"

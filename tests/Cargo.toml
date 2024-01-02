@@ -1,0 +1,8 @@
+[package]
+name = "tests"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Waiting for https://github.com/nervosnetwork/capsule/pull/137 to land in a proper release
+ckb-testtool = { git = "https://github.com/nervosnetwork/capsule", rev = "984a071" }
