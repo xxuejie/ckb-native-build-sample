@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 # Waiting for https://github.com/nervosnetwork/capsule/pull/137 to land in a proper release
 ckb-testtool = { git = "https://github.com/nervosnetwork/capsule", rev = "984a071" }
+serde_json = "1.0"

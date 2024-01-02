@@ -118,7 +118,7 @@ Notice that using docker to do reproducible build is a method of doing reproduci
 Tests is supported in different levels:
 
 * Rust crates can have their own unit tests, see `crates/big-cell-fetcher` for an example.
-* Individual contracts are also organized as plain Rust crates, they can have unit tests in their own crates as well.
+* Individual contracts are also organized as plain Rust crates, they can have unit tests in their own crates as well. See `contracts/loads-of-hashes` for an example.
 * At workspace level, we also have a crate for higher level testing, see `tests` for details.
 
 As all Rust crates here are organized in a unified workspace, a single command can fire up all the tests here:

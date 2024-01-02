@@ -76,6 +76,7 @@ cargo:
 	cargo $(CARGO_CMD) $(CARGO_ARGS)
 
 clean:
+	rm -rf build
 	cargo clean
 
 prepare:

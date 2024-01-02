@@ -75,3 +75,24 @@ pub fn program_entry() -> i8 {
 
     0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_hasher_concatenate_data() {
+        let mut hasher = Hasher::new();
+        assert!(hasher.visit(b"12345"));
+        assert!(hasher.visit(b"67890"));
+
+        let hash = hasher.finalize();
+
+        let mut blake2b = Blake2bBuilder::new(32).personal(b"cell").build();
+        blake2b.update(b"1234567890");
+        let mut hash2 = [0u8; 32];
+        blake2b.finalize(&mut hash2);
+
+        assert_eq!(hash, hash2);
+    }
+}

@@ -1536,6 +1536,7 @@ name = "tests"
 version = "0.1.0"
 dependencies = [
  "ckb-testtool",
+ "serde_json",
 ]
 
 [[package]]
