@@ -39,7 +39,8 @@ build:
 	RUSTFLAGS="$(FULL_RUSTFLAGS)" \
 		TARGET_CC="$(TARGET_CC)" TARGET_CFLAGS="$(TARGET_CFLAGS)" \
 		cargo build --target=riscv64imac-unknown-none-elf $(MODE_ARGS) $(CARGO_ARGS)
-	@if [ "x$(BUILD_DIR)" != "x" ]; then \
+	@set -eu; \
+	if [ "x$(BUILD_DIR)" != "x" ]; then \
 		for binary in $(BINARIES); do \
 			echo "Copying binary $$binary to build directory"; \
 			cp $(TOP)/target/riscv64imac-unknown-none-elf/$(MODE)/$$binary $(TOP)/$(BUILD_DIR); \

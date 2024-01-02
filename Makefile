@@ -36,7 +36,8 @@ build:
 		rm -rf $(BUILD_DIR); \
 	fi
 	mkdir -p $(BUILD_DIR)
-	@if [ "x$(CONTRACT)" = "x" ]; then \
+	@set -eu; \
+	if [ "x$(CONTRACT)" = "x" ]; then \
 		for contract in $(wildcard contracts/*); do \
 			make -e -C $$contract build; \
 		done; \
