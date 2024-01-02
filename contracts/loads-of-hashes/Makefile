@@ -11,7 +11,7 @@ FULL_RUSTFLAGS := -C target-feature=+zba,+zbb,+zbc,+zbs $(CUSTOM_RUSTFLAGS)
 # stdout in unit tests
 CARGO_ARGS :=
 MODE := release
-# When this is set to true, the generated binaries will be copied over
+# When this is set to some value, the generated binaries will be copied over
 BUILD_DIR :=
 # Generated binaries to copy. By convention, a Rust crate's directory name will
 # likely match the crate name, which is also the name of the final binary.
