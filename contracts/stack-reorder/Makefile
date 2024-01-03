@@ -6,7 +6,7 @@ CUSTOM_RUSTFLAGS := --cfg debug_assertions
 # RUSTFLAGS that are less likely to be tweaked by developers. Most likely
 # one would want to keep the default values here.
 FULL_RUSTFLAGS := -C target-feature=+zba,+zbb,+zbc,+zbs $(CUSTOM_RUSTFLAGS) \
-	-C link-arg=-T$(realpath $(shell pwd))/ld_interface.ld
+	-C link-arg=-Tld_interface.ld
 # Additional cargo args to append here. For example, one can use
 # make test CARGO_ARGS="-- --nocapture" so as to inspect data emitted to
 # stdout in unit tests
