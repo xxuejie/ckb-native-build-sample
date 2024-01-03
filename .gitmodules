@@ -4,3 +4,6 @@
 [submodule "deps/ckb-stack-reorg-bootloader"]
 	path = deps/ckb-stack-reorg-bootloader
 	url = https://github.com/xxuejie/ckb-stack-reorg-bootloader
+[submodule "deps/lib-dummy-atomics"]
+	path = deps/lib-dummy-atomics
+	url = https://github.com/xxuejie/lib-dummy-atomics

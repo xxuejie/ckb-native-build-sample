@@ -1,5 +1,10 @@
 use crate::{verify_and_dump_failed_tx, Loader};
-use ckb_testtool::ckb_types::{bytes::Bytes, core::TransactionBuilder, packed::*, prelude::*};
+use ckb_testtool::ckb_types::{
+    bytes::Bytes,
+    core::{ScriptHashType, TransactionBuilder},
+    packed::*,
+    prelude::*,
+};
 use ckb_testtool::context::Context;
 
 const MAX_CYCLES: u64 = 10_000_000;
@@ -15,6 +20,54 @@ fn test_stack_reorder_should_run() {
 
     let lock_script = context
         .build_script(&out_point, Default::default())
+        .expect("script");
+
+    let input_out_point = context.create_cell(
+        CellOutput::new_builder()
+            .capacity(1000u64.pack())
+            .lock(lock_script.clone())
+            .build(),
+        Bytes::new(),
+    );
+    let input = CellInput::new_builder()
+        .previous_output(input_out_point)
+        .build();
+
+    let outputs = vec![
+        CellOutput::new_builder()
+            .capacity(500u64.pack())
+            .lock(lock_script.clone())
+            .build(),
+        CellOutput::new_builder()
+            .capacity(500u64.pack())
+            .lock(lock_script)
+            .build(),
+    ];
+
+    let outputs_data = vec![Bytes::new(); 2];
+
+    let tx = TransactionBuilder::default()
+        .input(input)
+        .outputs(outputs)
+        .outputs_data(outputs_data.pack())
+        .build();
+
+    let tx = context.complete_tx(tx);
+
+    verify_and_dump_failed_tx(&context, &tx, MAX_CYCLES).expect("pass");
+}
+
+#[test]
+fn test_atomics_without_a_should_run() {
+    let loader = Loader::default();
+    let mut context = Context::default();
+
+    let stack_reorder_bin = loader.load_binary("atomics-without-a");
+
+    let out_point = context.deploy_cell(stack_reorder_bin);
+
+    let lock_script = context
+        .build_script_with_hash_type(&out_point, ScriptHashType::Data1, Default::default())
         .expect("script");
 
     let input_out_point = context.create_cell(

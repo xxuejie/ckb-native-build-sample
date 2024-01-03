@@ -4,6 +4,7 @@ resolver = "2"
 members = [
   "crates/big-cell-fetcher",
   "crates/big-witness-hasher",
+  "contracts/atomics-without-a",
   "contracts/legacy-c-dependency",
   "contracts/loads-of-hashes",
   "contracts/minimal-log",
