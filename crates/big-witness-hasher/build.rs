@@ -26,7 +26,7 @@ fn main() {
             .flag("-Wall")
             .flag("-Werror")
             .flag("-Wno-unused-parameter")
-            .define("__SHARED_LIBRARY__", None)
+            .define("CKB_DECLARATION_ONLY", None)
             .compile("c-impl");
     }
 }

@@ -209,7 +209,5 @@ However, there are still intricacies one needs to pay attention to:
 This sample is pending on the following PRs to land in a proper release:
 
 * <https://github.com/nervosnetwork/capsule/pull/137>
-* <https://github.com/nervosnetwork/ckb-std/pull/71>
-* <https://github.com/nervosnetwork/ckb-std/pull/73>
 
 For now, we have to use git dependencies for certain crates.

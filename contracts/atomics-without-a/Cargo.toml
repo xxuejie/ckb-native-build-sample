@@ -5,7 +5,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ckb-std = { git = "https://github.com/xxuejie/ckb-std", rev = "5227ce2", features = [ "build-with-clang" ] }
+ckb-std = { version = "0.15.0", features = [ "build-with-clang" ] }
 log = { version = "0.4.20", default-features = false }
 bytes = { version = "1.5.0", default-features = false }
 
