@@ -56,6 +56,7 @@ jobs:
       run: |
         iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
         scoop install llvm
+        scoop install yasm
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
