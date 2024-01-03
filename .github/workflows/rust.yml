@@ -38,4 +38,4 @@ jobs:
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
-      run: make
+      run: PATH="/usr/local/opt/llvm@16/bin:$PATH" make LLVM_PREFIX=""
