@@ -1,4 +1,8 @@
-TOP := $(shell pwd)
+# We cannot use $(shell pwd), which will return unix path format on Windows,
+# making it hard to use.
+cur_dir = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+TOP := $(cur_dir)
 # RUSTFLAGS that are likely to be tweaked by developers. For example,
 # while we enable debug logs by default here, some might want to strip them
 # for minimal code size / consumed cycles.
@@ -27,7 +31,7 @@ CLANG := clang$(LLVM_SUFFIX)
 TARGET_CC := $(CLANG)
 TARGET_CFLAGS := --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs \
 	-nostdinc -nostdlib \
-	-I $(TOP)/deps/ckb-c-stdlib/libc -DCKB_DECLARATION_ONLY
+	-I $(TOP)deps/ckb-c-stdlib/libc -DCKB_DECLARATION_ONLY
 
 ifeq (release,$(MODE))
 	MODE_ARGS := --release

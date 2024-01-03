@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  linux-build:
 
     runs-on: ubuntu-latest
 
@@ -24,3 +24,40 @@ jobs:
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
       run: make
+
+  macos-build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install llvm 16
+      run: brew install llvm@16
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Build and test
+      run: PATH="/usr/local/opt/llvm@16/bin:$PATH" make
+
+  windows-build:
+
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install llvm
+      shell: pwsh
+      # https://github.com/ScoopInstaller/Install#for-admin
+      #
+      # Note that on Windows we cannot choose LLVM 16 here, we have to settle on latest stable LLVM
+      run: |
+        iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+        scoop install llvm yasm
+        echo "$env:USERPROFILE\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Build and test
+      run: make CLANG="clang"
