@@ -55,8 +55,7 @@ jobs:
       # Note that on Windows we cannot choose LLVM 16 here, we have to settle on latest stable LLVM
       run: |
         iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
-        scoop install llvm
-        scoop install yasm
+        scoop install llvm yasm
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
