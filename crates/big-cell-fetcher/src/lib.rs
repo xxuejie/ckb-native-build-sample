@@ -45,7 +45,7 @@ pub fn fetch_big_cell_data<V: Visitor>(
 
 // Here we provide a native runnable test sample. The test uses ckb-x64-simulator
 // to mock CKB syscalls.
-#[cfg(test)]
+#[cfg(all(test, target_arch = "x86_64", unix))]
 mod tests {
     use super::*;
     use ckb_testtool::ckb_types::{
