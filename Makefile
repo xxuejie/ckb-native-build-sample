@@ -10,7 +10,7 @@ CARGO_ARGS :=
 MODE := release
 # Tweak this to change the clang version to use for building C code
 LLVM_SUFFIX := -16
-CLANG := clang$(LLVM_SUFFIX)
+CC := clang$(LLVM_SUFFIX)
 # When this is set, a single contract will be built instead of all contracts
 CONTRACT :=
 # By default, we would clean build/{release,debug} folder first, in case old
@@ -25,8 +25,8 @@ export TOP
 export CARGO_ARGS
 export MODE
 export LLVM_SUFFIX
-export CLANG
 export BUILD_DIR
+export CC
 
 default: build test
 
@@ -69,7 +69,7 @@ fmt:
 # Arbitrary cargo command is supported here. For example:
 #
 # make cargo CARGO_CMD=expand CARGO_ARGS="--ugly"
-# 
+#
 # Invokes:
 # cargo expand --ugly
 CARGO_CMD :=

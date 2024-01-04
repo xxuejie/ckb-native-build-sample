@@ -5,13 +5,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ckb-std = { git = "https://github.com/quake/ckb-std", branch = "quake/libc", features = [ "build-with-clang" ] }
+ckb-std = { git = "https://github.com/quake/ckb-std", branch = "quake/clang" }
 
 # Supporting native tests powered by ckb-x64-simulator
 [target.'cfg(target_arch = "x86_64")'.dependencies.ckb-std]
 git = "https://github.com/quake/ckb-std"
-branch = "quake/libc"
-features = ["build-with-clang", "simulator"]
+branch = "quake/clang"
+features = ["simulator"]
 
 [target.'cfg(target_arch = "x86_64")'.dev-dependencies]
 ckb-testtool = { git = "https://github.com/nervosnetwork/capsule", rev = "984a071" }
