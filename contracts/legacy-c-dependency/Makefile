@@ -15,6 +15,9 @@ FULL_RUSTFLAGS := -C target-feature=+zba,+zbb,+zbc,+zbs $(CUSTOM_RUSTFLAGS)
 # stdout in unit tests
 CARGO_ARGS :=
 MODE := release
+# Tweak this to change the clang version to use for building C code. By default
+# we use a bash script with somes heuristics to find clang in current system.
+CLANG := $(shell $(TOP)/scripts/find_clang)
 # When this is set to some value, the generated binaries will be copied over
 BUILD_DIR :=
 # Generated binaries to copy. By convention, a Rust crate's directory name will
@@ -23,12 +26,8 @@ BUILD_DIR :=
 # more than one binary is supported here.
 BINARIES := $(notdir $(shell pwd))
 
-# For dependencies that are still using GNU-style convention, we would need
-# to setup certain environment variables, so they can be built via clang
-LLVM_SUFFIX := -16
-CLANG := clang$(LLVM_SUFFIX)
-
-TARGET_CC := $(CLANG)
+# Some older crates might not be parpared to be built against clang, we would
+# need to override CFLAGS to prepare them.
 TARGET_CFLAGS := --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs \
 	-nostdinc -nostdlib \
 	-I $(TOP)deps/ckb-c-stdlib/libc -DCKB_DECLARATION_ONLY
@@ -40,8 +39,8 @@ endif
 default: build test
 
 build:
-	RUSTFLAGS="$(FULL_RUSTFLAGS)" \
-		TARGET_CC="$(TARGET_CC)" TARGET_CFLAGS="$(TARGET_CFLAGS)" \
+	RUSTFLAGS="$(FULL_RUSTFLAGS)" TARGET_CC="$(CLANG)" \
+		TARGET_CFLAGS="$(TARGET_CFLAGS)" \
 		cargo build --target=riscv64imac-unknown-none-elf $(MODE_ARGS) $(CARGO_ARGS)
 	@set -eu; \
 	if [ "x$(BUILD_DIR)" != "x" ]; then \

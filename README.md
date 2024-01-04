@@ -39,6 +39,7 @@ Generally speaking, the directory structure, is simply a standard Rust workspace
 * `deps`: All git submodules should go here.
 * `tests`: Top level contract tests. Typically one would want to build full CKB transactions including the smart contracts in development, then run them in CKB's verifier for assurance of behaviors.
 * `docker`: Sample docker files for reproducible build. You might or might not need this in your project.
+* `scripts`: Utility scripts that will be leveraged by makefiles.
 * `Makefile`: Top, workspace level makefile for firing up commands.
 
 Note for the sample here, I am not locking Rust toolchain versions, since I believe latest stable Rust is good enough to build smart contracts. However for individual projects one is working on, it might or might not make sense to lock Rust toolchain version for stability.
@@ -61,6 +62,7 @@ $ make build CUSTOM_RUSTFLAGS=""          # release build without debug assertio
 $ make build CARGO_ARGS="--verbose"       # release build with `--verbose` attached to cargo command, you can use other arguments accepted by cargo
 $ make build CONTRACT=minimal-log         # build a single contract
 $ make build CLEAN_BUILD_DIR_FIRST=false  # keep old untouched binaries
+$ make build CLANG=clang-17               # use a specific clang version to build C code
 ```
 
 You can also combine all the arguments here, suppose in a previous build you have build all the binaries, now you only want to build minimal-log binary. Doing `make build CONTRACT=minimal-log` will erase other binaries, you can do `make build CONTRACT=minimal-log CLEAN_BUILD_DIR_FIRST=false` to both build the minimal-log binary, and also keep the old ones untouched.

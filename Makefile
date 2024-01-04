@@ -12,9 +12,9 @@ CUSTOM_RUSTFLAGS := --cfg debug_assertions
 # stdout in unit tests
 CARGO_ARGS :=
 MODE := release
-# Tweak this to change the clang version to use for building C code
-LLVM_SUFFIX := -16
-CLANG := clang$(LLVM_SUFFIX)
+# Tweak this to change the clang version to use for building C code. By default
+# we use a bash script with somes heuristics to find clang in current system.
+CLANG := $(shell $(TOP)/scripts/find_clang)
 # When this is set, a single contract will be built instead of all contracts
 CONTRACT :=
 # By default, we would clean build/{release,debug} folder first, in case old
@@ -28,7 +28,6 @@ export CUSTOM_RUSTFLAGS
 export TOP
 export CARGO_ARGS
 export MODE
-export LLVM_SUFFIX
 export CLANG
 export BUILD_DIR
 

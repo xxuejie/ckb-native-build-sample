@@ -5,4 +5,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ckb-std = { version = "0.15.0", features = [ "build-with-clang" ] }
+ckb-std = "0.15.0"
