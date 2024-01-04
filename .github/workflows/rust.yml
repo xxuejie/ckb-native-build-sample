@@ -34,16 +34,16 @@ jobs:
         - ${{ github.workspace }}:/code
 
     steps:
-    - uses: actions/checkout@v3
     - name: Install dependencies
       run: sudo dnf -y install llvm git
     - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
-    - name: Fetch git submodules
-      run: cd /code && git submodule update --init
     - name: Build and test
-      run: cd /code && make
+      run: make
 
   macos-build:
 
