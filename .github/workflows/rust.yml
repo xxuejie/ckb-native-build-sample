@@ -38,7 +38,7 @@ jobs:
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
-      run: PATH="/usr/local/opt/llvm@16/bin:$PATH" make
+      run: make
 
   windows-build:
 
@@ -60,4 +60,4 @@ jobs:
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
-      run: make CLANG="clang"
+      run: make
