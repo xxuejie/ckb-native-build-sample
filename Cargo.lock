@@ -560,8 +560,8 @@ dependencies = [
 
 [[package]]
 name = "ckb-std"
-version = "0.14.3"
-source = "git+https://github.com/xxuejie/ckb-std?rev=5227ce2#5227ce28fd605bb9b166c9a7e0d22d7db30fed73"
+version = "0.15.0"
+source = "git+https://github.com/quake/ckb-std?branch=quake/libc#cd0ccf49d47bfa7d3b28da302bbd823e05f6f061"
 dependencies = [
  "buddy-alloc",
  "cc",
