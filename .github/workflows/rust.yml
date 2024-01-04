@@ -30,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: fedora:latest
-      volumes:
-        - ${{ github.workspace }}:/code
 
     steps:
     - name: Install dependencies
