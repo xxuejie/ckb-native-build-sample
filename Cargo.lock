@@ -601,8 +601,9 @@ checksum = "d5c03dd01263a66eaf171fb1bbadd12d80a0b54abe19aa55a2c53c5ae3300cda"
 
 [[package]]
 name = "ckb-testtool"
-version = "0.10.0"
-source = "git+https://github.com/nervosnetwork/capsule?rev=984a071#984a071d121c0618fc9e138dc9dc3fd30377020c"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed4e8a7369f0dfc0294f7e24927be7661af26c1e3dbe7e917d868d3f1010e86f"
 dependencies = [
  "ckb-always-success-script",
  "ckb-chain-spec",

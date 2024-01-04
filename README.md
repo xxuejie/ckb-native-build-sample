@@ -205,11 +205,3 @@ However, there are still intricacies one needs to pay attention to:
 * Unless `TOP` is already set, all makefiles will use current running directory as the `TOP` value. This explains when we chdir to `contracts/stack-reorder` to run a make task, we need to manually set the `TOP` value: in a workspace setup, `TOP` must always point to the top of the workspace.
 * All submodules, are expected to be put in `TOP`/deps. It might work if you put them in other folders, but we strongly recommend that this convention to be respected, so as to be nice to other makefiles.
 * When workspace-level make process needs to call into contract-level make process for different tasks, variables such as `TOP` (and others, see the top-level makefile for details, search for `export` to locate the exact location) will be passed from the parent make process, to child make process, so as to properly initialize the contract-level make process to respect the workspace layout. This is why `make run` does not need individual setting on `TOP`, despite we want to run the make task on a specific contract.
-
-## Blocker
-
-This sample is pending on the following PRs to land in a proper release:
-
-* <https://github.com/nervosnetwork/capsule/pull/137>
-
-For now, we have to use git dependencies for certain crates.
