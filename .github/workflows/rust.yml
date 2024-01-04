@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  linux-build:
+  ubuntu-build:
 
     runs-on: ubuntu-latest
 
@@ -20,6 +20,26 @@ jobs:
         submodules: true
     - name: Install llvm 16
       run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && rm llvm.sh
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Build and test
+      run: make
+
+  fedora-build:
+
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+      volumes:
+        - ${{ github.workspace }}:/code
+
+    steps:
+    - name: Install dependencies
+      run: sudo dnf -y install clang git make
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
@@ -38,7 +58,7 @@ jobs:
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
-      run: PATH="/usr/local/opt/llvm@16/bin:$PATH" make
+      run: make
 
   windows-build:
 
@@ -60,4 +80,4 @@ jobs:
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
-      run: make CLANG="clang"
+      run: make
