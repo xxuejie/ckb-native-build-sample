@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  linux-build:
+  ubuntu-build:
 
     runs-on: ubuntu-latest
 
@@ -20,6 +20,23 @@ jobs:
         submodules: true
     - name: Install llvm 16
       run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && rm llvm.sh
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Build and test
+      run: make
+
+  fedora-build:
+
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:39
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install llvm 16
+      run: sudo dnf -y install llvm
     - name: Install riscv64 target
       run: rustup target add riscv64imac-unknown-none-elf
     - name: Build and test
