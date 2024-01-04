@@ -43,6 +43,24 @@ jobs:
     - name: Build and test
       run: make
 
+  arch-build:
+
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+
+    steps:
+    - name: Install dependencies
+      run: sudo pacman -Syu clang git make
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Build and test
+      run: make
+
   macos-build:
 
     runs-on: macos-latest
