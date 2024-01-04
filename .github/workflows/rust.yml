@@ -29,13 +29,13 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: fedora:39
+      image: fedora:latest
       volumes:
         - ${{ github.workspace }}:/code
 
     steps:
     - name: Install dependencies
-      run: sudo dnf -y install llvm git
+      run: sudo dnf -y install llvm git make
     - uses: actions-rust-lang/setup-rust-toolchain@v1
     - uses: actions/checkout@v3
       with:
