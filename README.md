@@ -205,3 +205,19 @@ However, there are still intricacies one needs to pay attention to:
 * Unless `TOP` is already set, all makefiles will use current running directory as the `TOP` value. This explains when we chdir to `contracts/stack-reorder` to run a make task, we need to manually set the `TOP` value: in a workspace setup, `TOP` must always point to the top of the workspace.
 * All submodules, are expected to be put in `TOP`/deps. It might work if you put them in other folders, but we strongly recommend that this convention to be respected, so as to be nice to other makefiles.
 * When workspace-level make process needs to call into contract-level make process for different tasks, variables such as `TOP` (and others, see the top-level makefile for details, search for `export` to locate the exact location) will be passed from the parent make process, to child make process, so as to properly initialize the contract-level make process to respect the workspace layout. This is why `make run` does not need individual setting on `TOP`, despite we want to run the make task on a specific contract.
+
+### Generate new crates
+
+This sample is integrated with templates provided [here](https://github.com/xxuejie/ckb-script-templates), so you can also generate new crates as you wish:
+
+```
+$ make generate
+🤷   Project Name: first-contract
+🔧   Destination: /tmp/ckb-native-build-sample/contracts/first-contract ...
+🔧   project-name: first-contract ...
+🔧   Generating template ...
+🔧   Moving generated files into: `/tmp/my-first-contract-workspace/contracts/first-contract`...
+🔧   Initializing a fresh Git repository
+✨   Done! New project created /tmp/ckb-native-build-sample/contracts/first-contract
+Please update workspace-level Cargo.toml so members include the newly created crate!
+```
